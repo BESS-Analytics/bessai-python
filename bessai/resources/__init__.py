@@ -1,7 +1,7 @@
 """BESS AI SDK — Resource classes."""
 from bessai.resources.agents import AgentResource, AsyncAgentResource
 from bessai.resources.calls import CallResource, AsyncCallResource
-from bessai.resources.phone_numbers import PhoneNumbersResource, AsyncPhoneNumbersResource
+from bessai.resources.phone_numbers import PhoneNumberResource, AsyncPhoneNumberResource
 from bessai.resources.batch_calls import BatchCallsResource, AsyncBatchCallsResource
 from bessai.resources.workflows import WorkflowsResource, AsyncWorkflowsResource
 from bessai.resources.analytics import AnalyticsResource, AsyncAnalyticsResource
@@ -13,13 +13,16 @@ AgentsResource = AgentResource
 AsyncAgentsResource = AsyncAgentResource
 CallsResource = CallResource
 AsyncCallsResource = AsyncCallResource
+PhoneNumbersResource = PhoneNumberResource
+AsyncPhoneNumbersResource = AsyncPhoneNumberResource
 
 __all__ = [
     "AgentResource", "AsyncAgentResource",
     "AgentsResource", "AsyncAgentsResource",  # compat
     "CallResource", "AsyncCallResource",
     "CallsResource", "AsyncCallsResource",  # compat
-    "PhoneNumbersResource", "AsyncPhoneNumbersResource",
+    "PhoneNumberResource", "AsyncPhoneNumberResource",
+    "PhoneNumbersResource", "AsyncPhoneNumbersResource",  # compat
     "BatchCallsResource", "AsyncBatchCallsResource",
     "WorkflowsResource", "AsyncWorkflowsResource",
     "AnalyticsResource", "AsyncAnalyticsResource",
