@@ -2,7 +2,7 @@
 from bessai.resources.agents import AgentResource, AsyncAgentResource
 from bessai.resources.calls import CallResource, AsyncCallResource
 from bessai.resources.phone_numbers import PhoneNumberResource, AsyncPhoneNumberResource
-from bessai.resources.batch_calls import BatchCallsResource, AsyncBatchCallsResource
+from bessai.resources.batch_calls import BatchCallResource, AsyncBatchCallResource
 from bessai.resources.workflows import WorkflowsResource, AsyncWorkflowsResource
 from bessai.resources.analytics import AnalyticsResource, AsyncAnalyticsResource
 from bessai.resources.knowledge_bases import KnowledgeBasesResource, AsyncKnowledgeBasesResource
@@ -15,6 +15,8 @@ CallsResource = CallResource
 AsyncCallsResource = AsyncCallResource
 PhoneNumbersResource = PhoneNumberResource
 AsyncPhoneNumbersResource = AsyncPhoneNumberResource
+BatchCallsResource = BatchCallResource
+AsyncBatchCallsResource = AsyncBatchCallResource
 
 __all__ = [
     "AgentResource", "AsyncAgentResource",
@@ -23,7 +25,8 @@ __all__ = [
     "CallsResource", "AsyncCallsResource",  # compat
     "PhoneNumberResource", "AsyncPhoneNumberResource",
     "PhoneNumbersResource", "AsyncPhoneNumbersResource",  # compat
-    "BatchCallsResource", "AsyncBatchCallsResource",
+    "BatchCallResource", "AsyncBatchCallResource",
+    "BatchCallsResource", "AsyncBatchCallsResource",  # compat
     "WorkflowsResource", "AsyncWorkflowsResource",
     "AnalyticsResource", "AsyncAnalyticsResource",
     "KnowledgeBasesResource", "AsyncKnowledgeBasesResource",
