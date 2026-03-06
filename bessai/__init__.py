@@ -10,15 +10,15 @@ Quickstart (sync):
 
     client = BessAI(api_key="bess_sk_live_...")
 
-    agent = client.agents.create(
-        name="Support Agent",
+    agent = client.agent.create(
+        agent_name="Support Agent",
         llm_provider="openai",
         llm_model="gpt-4o",
         system_prompt="You are a helpful support agent.",
     )
 
     call = client.calls.create_phone_call(
-        agent_id=agent.id,
+        agent_id=agent.agent_id,
         from_number="+14157774444",
         to_number="+12137774445",
     )
@@ -29,7 +29,7 @@ Quickstart (async):
 
     async def main():
         client = AsyncBessAI(api_key="bess_sk_live_...")
-        agents = await client.agents.list()
+        agents = await client.agent.list()
         await client.close()
 """
 from typing import Dict, Optional
@@ -40,7 +40,7 @@ from bessai._client import SyncHTTPClient, AsyncHTTPClient
 from bessai._streaming import StreamingResource
 
 # Resource classes
-from bessai.resources.agents import AgentsResource, AsyncAgentsResource
+from bessai.resources.agents import AgentResource, AsyncAgentResource
 from bessai.resources.calls import CallsResource, AsyncCallsResource
 from bessai.resources.phone_numbers import PhoneNumbersResource, AsyncPhoneNumbersResource
 from bessai.resources.batch_calls import BatchCallsResource, AsyncBatchCallsResource
@@ -92,8 +92,8 @@ class BessAI:
         )
         self._http = SyncHTTPClient(self._config)
 
-        # Resource namespaces
-        self.agents = AgentsResource(self._http)
+        # Resource namespaces (singular = Retell-compatible convention)
+        self.agent = AgentResource(self._http)
         self.calls = CallsResource(self._http)
         self.phone_numbers = PhoneNumbersResource(self._http)
         self.batch_calls = BatchCallsResource(self._http)
@@ -101,6 +101,11 @@ class BessAI:
         self.analytics = AnalyticsResource(self._http)
         self.knowledge_bases = KnowledgeBasesResource(self._http)
         self.api_keys = APIKeysResource(self._http)
+
+    @property
+    def agents(self) -> AgentResource:
+        """Backward-compatible alias for ``self.agent``."""
+        return self.agent
 
     def close(self) -> None:
         """Close the underlying HTTP client."""
@@ -145,8 +150,8 @@ class AsyncBessAI:
         )
         self._http = AsyncHTTPClient(self._config)
 
-        # Resource namespaces
-        self.agents = AsyncAgentsResource(self._http)
+        # Resource namespaces (singular = Retell-compatible convention)
+        self.agent = AsyncAgentResource(self._http)
         self.calls = AsyncCallsResource(self._http)
         self.phone_numbers = AsyncPhoneNumbersResource(self._http)
         self.batch_calls = AsyncBatchCallsResource(self._http)
@@ -155,6 +160,11 @@ class AsyncBessAI:
         self.knowledge_bases = AsyncKnowledgeBasesResource(self._http)
         self.api_keys = AsyncAPIKeysResource(self._http)
         self.streaming = StreamingResource(self._config)
+
+    @property
+    def agents(self) -> AsyncAgentResource:
+        """Backward-compatible alias for ``self.agent``."""
+        return self.agent
 
     async def close(self) -> None:
         """Close the underlying HTTP client."""
