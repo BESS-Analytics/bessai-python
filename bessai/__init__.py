@@ -41,7 +41,7 @@ from bessai._streaming import StreamingResource
 
 # Resource classes
 from bessai.resources.agents import AgentResource, AsyncAgentResource
-from bessai.resources.calls import CallsResource, AsyncCallsResource
+from bessai.resources.calls import CallResource, AsyncCallResource
 from bessai.resources.phone_numbers import PhoneNumbersResource, AsyncPhoneNumbersResource
 from bessai.resources.batch_calls import BatchCallsResource, AsyncBatchCallsResource
 from bessai.resources.workflows import WorkflowsResource, AsyncWorkflowsResource
@@ -94,7 +94,7 @@ class BessAI:
 
         # Resource namespaces (singular = Retell-compatible convention)
         self.agent = AgentResource(self._http)
-        self.calls = CallsResource(self._http)
+        self.call = CallResource(self._http)
         self.phone_numbers = PhoneNumbersResource(self._http)
         self.batch_calls = BatchCallsResource(self._http)
         self.workflows = WorkflowsResource(self._http)
@@ -106,6 +106,11 @@ class BessAI:
     def agents(self) -> AgentResource:
         """Backward-compatible alias for ``self.agent``."""
         return self.agent
+
+    @property
+    def calls(self) -> CallResource:
+        """Backward-compatible alias for ``self.call``."""
+        return self.call
 
     def close(self) -> None:
         """Close the underlying HTTP client."""
@@ -152,7 +157,7 @@ class AsyncBessAI:
 
         # Resource namespaces (singular = Retell-compatible convention)
         self.agent = AsyncAgentResource(self._http)
-        self.calls = AsyncCallsResource(self._http)
+        self.call = AsyncCallResource(self._http)
         self.phone_numbers = AsyncPhoneNumbersResource(self._http)
         self.batch_calls = AsyncBatchCallsResource(self._http)
         self.workflows = AsyncWorkflowsResource(self._http)
@@ -165,6 +170,11 @@ class AsyncBessAI:
     def agents(self) -> AsyncAgentResource:
         """Backward-compatible alias for ``self.agent``."""
         return self.agent
+
+    @property
+    def calls(self) -> AsyncCallResource:
+        """Backward-compatible alias for ``self.call``."""
+        return self.call
 
     async def close(self) -> None:
         """Close the underlying HTTP client."""
