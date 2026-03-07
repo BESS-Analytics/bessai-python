@@ -38,10 +38,4 @@ class LanguageEntry(BaseModel):
         extra = "allow"
 
 
-class ProviderPricing(BaseModel):
-    """Pricing for a specific provider/model combination."""
-    input_per_1k: Optional[float] = None
-    output_per_1k: Optional[float] = None
 
-    class Config:
-        extra = "allow"

@@ -19,7 +19,7 @@ from bessai.types.billing import (
     PricingEstimateParams,
     PricingEstimateResponse,
 )
-from bessai.types.config import ProviderConfig, DefaultsConfig, LanguageEntry, ProviderPricing
+from bessai.types.config import ProviderConfig, DefaultsConfig, LanguageEntry
 from bessai.types.knowledge_base import KnowledgeBase, KnowledgeBaseCreate, Document
 from bessai.types.api_key import APIKey, APIKeyCreate, APIKeyCreated, APIKeyUpdate, APIKeyUsage
 from bessai.types.common import PaginatedResponse, ErrorResponse
@@ -44,7 +44,7 @@ __all__ = [
     "UsageSummaryResponse", "DailyUsageItem", "CallUsageResponse",
     "ServicePricingResponse", "PricingEstimateParams", "PricingEstimateResponse",
     # Config
-    "ProviderConfig", "DefaultsConfig", "LanguageEntry", "ProviderPricing",
+    "ProviderConfig", "DefaultsConfig", "LanguageEntry",
     # Knowledge Bases
     "KnowledgeBase", "KnowledgeBaseCreate", "Document",
     # API Keys
