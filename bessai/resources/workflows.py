@@ -68,7 +68,7 @@ class WorkflowResource:
             ``status``.
         """
         params = WorkflowCreateParams(**kwargs)
-        data = self._client.post("/v1/workflows", json=params.to_api_params())
+        data = self._client.post("/v1/workflows/", json=params.to_api_params())
         return WorkflowCreateResponse(**data)
 
     def generate(self, **kwargs) -> GenerateResponse:
@@ -428,7 +428,7 @@ class AsyncWorkflowResource:
     async def create(self, **kwargs) -> WorkflowCreateResponse:
         """Create a workflow by providing n8n JSON directly."""
         params = WorkflowCreateParams(**kwargs)
-        data = await self._client.post("/v1/workflows", json=params.to_api_params())
+        data = await self._client.post("/v1/workflows/", json=params.to_api_params())
         return WorkflowCreateResponse(**data)
 
     async def generate(self, **kwargs) -> GenerateResponse:
