@@ -67,10 +67,7 @@ class UsageEvent(BaseModel):
     reference_type: str
     provider: Optional[str] = None
     model: Optional[str] = None
-    usage_data: Dict[str, Any] = {}
-    cost_usd: float
     price_usd: float
-    pricing_data: Dict[str, Any] = {}
     created_at: datetime
 
 
@@ -87,7 +84,6 @@ class UsageSummaryResponse(BaseModel):
     organization_id: str
     period: Dict[str, str]
     total_events: int
-    total_cost_usd: float
     total_price_usd: float
     breakdown: Dict[str, Any]
 
@@ -96,7 +92,6 @@ class DailyUsageItem(BaseModel):
     """Daily aggregated usage."""
     date: str
     event_count: int
-    total_cost_usd: float
     total_price_usd: float
 
 
@@ -104,7 +99,6 @@ class CallUsageResponse(BaseModel):
     """All usage events for a specific call."""
     call_id: str
     events: List[UsageEvent]
-    total_cost_usd: float
     total_price_usd: float
 
 
