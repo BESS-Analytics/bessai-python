@@ -21,6 +21,12 @@ from bessai.types.agent import (
     AgentUpdateParams,
     AgentVersion,
 )
+from bessai.types.workflow import (
+    AgentWorkflowLinkResponse,
+    AgentWorkflowListItem,
+    LinkAgentParams,
+    UpdateAgentLinkParams,
+)
 
 
 class AgentResource:
@@ -139,6 +145,46 @@ class AgentResource:
             )
         return AgentResponse(**data)
 
+    # ── Workflow Linking (convenience wrappers) ──────────────────────────
+
+    def link_workflow(self, agent_id: str, workflow_id: str, **kwargs) -> AgentWorkflowLinkResponse:
+        """Link a workflow to this agent.
+
+        Convenience method — delegates to the workflow linking endpoint.
+
+        Args:
+            agent_id: UUID of the agent.
+            workflow_id: UUID of the workflow.
+            trigger_condition_description: Natural-language trigger condition.
+            priority: Execution order (higher = runs first).
+            execution_mode_override: Force sync or async.
+        """
+        params = LinkAgentParams(**kwargs)
+        data = self._client.post(
+            f"/v1/workflows/{workflow_id}/agents/{agent_id}",
+            json=params.to_api_params(),
+        )
+        return AgentWorkflowLinkResponse(**data)
+
+    def unlink_workflow(self, agent_id: str, workflow_id: str) -> Dict[str, Any]:
+        """Remove a workflow link from this agent.
+
+        Args:
+            agent_id: UUID of the agent.
+            workflow_id: UUID of the workflow.
+        """
+        return self._client.delete(f"/v1/workflows/{workflow_id}/agents/{agent_id}")
+
+    def list_workflows(self, agent_id: str) -> List[AgentWorkflowListItem]:
+        """Get all workflows linked to an agent.
+
+        Args:
+            agent_id: UUID of the agent.
+        """
+        data = self._client.get(f"/v1/workflows/by-agent/{agent_id}")
+        items = data.get("workflows", []) if isinstance(data, dict) else data
+        return [AgentWorkflowListItem(**w) for w in items]
+
 
 class AsyncAgentResource:
     """Asynchronous agent operations."""
@@ -198,3 +244,24 @@ class AsyncAgentResource:
                 files={"file": ("agent.json", f, "application/json")},
             )
         return AgentResponse(**data)
+
+    # ── Workflow Linking (convenience wrappers) ──────────────────────────
+
+    async def link_workflow(self, agent_id: str, workflow_id: str, **kwargs) -> AgentWorkflowLinkResponse:
+        """Link a workflow to this agent."""
+        params = LinkAgentParams(**kwargs)
+        data = await self._client.post(
+            f"/v1/workflows/{workflow_id}/agents/{agent_id}",
+            json=params.to_api_params(),
+        )
+        return AgentWorkflowLinkResponse(**data)
+
+    async def unlink_workflow(self, agent_id: str, workflow_id: str) -> Dict[str, Any]:
+        """Remove a workflow link from this agent."""
+        return await self._client.delete(f"/v1/workflows/{workflow_id}/agents/{agent_id}")
+
+    async def list_workflows(self, agent_id: str) -> List[AgentWorkflowListItem]:
+        """Get all workflows linked to an agent."""
+        data = await self._client.get(f"/v1/workflows/by-agent/{agent_id}")
+        items = data.get("workflows", []) if isinstance(data, dict) else data
+        return [AgentWorkflowListItem(**w) for w in items]

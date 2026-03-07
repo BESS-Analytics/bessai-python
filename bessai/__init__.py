@@ -44,7 +44,7 @@ from bessai.resources.agents import AgentResource, AsyncAgentResource
 from bessai.resources.calls import CallResource, AsyncCallResource
 from bessai.resources.phone_numbers import PhoneNumberResource, AsyncPhoneNumberResource
 from bessai.resources.batch_calls import BatchCallResource, AsyncBatchCallResource
-from bessai.resources.workflows import WorkflowsResource, AsyncWorkflowsResource
+from bessai.resources.workflows import WorkflowResource, AsyncWorkflowResource
 from bessai.resources.analytics import AnalyticsResource, AsyncAnalyticsResource
 from bessai.resources.knowledge_bases import KnowledgeBasesResource, AsyncKnowledgeBasesResource
 from bessai.resources.api_keys import APIKeysResource, AsyncAPIKeysResource
@@ -97,7 +97,7 @@ class BessAI:
         self.call = CallResource(self._http)
         self.phone_number = PhoneNumberResource(self._http)
         self.batch_call = BatchCallResource(self._http)
-        self.workflows = WorkflowsResource(self._http)
+        self.workflow = WorkflowResource(self._http)
         self.analytics = AnalyticsResource(self._http)
         self.knowledge_bases = KnowledgeBasesResource(self._http)
         self.api_keys = APIKeysResource(self._http)
@@ -121,6 +121,11 @@ class BessAI:
     def batch_calls(self) -> BatchCallResource:
         """Backward-compatible alias for ``self.batch_call``."""
         return self.batch_call
+
+    @property
+    def workflows(self) -> WorkflowResource:
+        """Backward-compatible alias for ``self.workflow``."""
+        return self.workflow
 
     def close(self) -> None:
         """Close the underlying HTTP client."""
@@ -170,7 +175,7 @@ class AsyncBessAI:
         self.call = AsyncCallResource(self._http)
         self.phone_number = AsyncPhoneNumberResource(self._http)
         self.batch_call = AsyncBatchCallResource(self._http)
-        self.workflows = AsyncWorkflowsResource(self._http)
+        self.workflow = AsyncWorkflowResource(self._http)
         self.analytics = AsyncAnalyticsResource(self._http)
         self.knowledge_bases = AsyncKnowledgeBasesResource(self._http)
         self.api_keys = AsyncAPIKeysResource(self._http)
@@ -195,6 +200,11 @@ class AsyncBessAI:
     def batch_calls(self) -> AsyncBatchCallResource:
         """Backward-compatible alias for ``self.batch_call``."""
         return self.batch_call
+
+    @property
+    def workflows(self) -> AsyncWorkflowResource:
+        """Backward-compatible alias for ``self.workflow``."""
+        return self.workflow
 
     async def close(self) -> None:
         """Close the underlying HTTP client."""
