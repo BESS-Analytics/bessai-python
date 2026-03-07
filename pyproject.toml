@@ -50,6 +50,9 @@ Issues = "https://github.com/BESS-Analytics/bessai-python/issues"
 [tool.hatch.version]
 path = "bessai/_version.py"
 
+[tool.hatch.build.targets.sdist]
+include = ["bessai/", "LICENSE", "README.md", "CHANGELOG.md"]
+
 [tool.hatch.build.targets.wheel]
 packages = ["bessai"]
 
