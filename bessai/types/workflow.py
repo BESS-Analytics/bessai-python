@@ -142,6 +142,15 @@ class ScheduleStatusResponse(BaseModel):
     job_details: Optional[Dict[str, Any]] = None
 
 
+class WorkflowCreateResponse(BaseModel):
+    """Result of creating a workflow via direct JSON save."""
+    workflow_id: str
+    name: str
+    trigger_type: Optional[str] = None
+    status: Optional[str] = None
+    message: Optional[str] = None
+
+
 class GenerateResponse(BaseModel):
     """Result of AI workflow generation."""
     workflow_id: Optional[str] = None
@@ -170,6 +179,25 @@ class ExecuteResponse(BaseModel):
 # =============================================================================
 # Request Models
 # =============================================================================
+
+
+class WorkflowCreateParams(BaseModel):
+    """Parameters for creating a workflow with direct n8n JSON."""
+    name: str = Field(..., min_length=1, max_length=255,
+                      description="Display name for the workflow.")
+    description: Optional[str] = Field(None,
+                                       description="What the workflow does.")
+    trigger_type: str = Field("post_call",
+                              description="post_call, in_call, webhook, or schedule.")
+    workflow_json: Dict[str, Any] = Field(...,
+                                          description="Complete n8n workflow JSON.")
+    trigger_config: Optional[Dict[str, Any]] = Field(None,
+                                                     description="Trigger-specific config.")
+    execution_mode: Optional[str] = Field(None, description="sync or async.")
+    timeout_seconds: Optional[int] = Field(None, ge=1, le=300)
+
+    def to_api_params(self) -> dict:
+        return self.model_dump(exclude_none=True)
 
 
 class WorkflowGenerateParams(BaseModel):

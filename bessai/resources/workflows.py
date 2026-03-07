@@ -2,7 +2,8 @@
 Workflow resource — CRUD, deploy, execute, credentials, agent linking, scheduling.
 
 Function names follow Retell AI SDK conventions for migration compatibility:
-  client.workflow.create()          # AI-generate from description
+  client.workflow.create(json=...)    # Save n8n JSON directly to database
+  client.workflow.generate(desc=...) # AI-generate from description
   client.workflow.retrieve(id)
   client.workflow.list()
   client.workflow.update(id, ...)
@@ -20,6 +21,8 @@ from bessai.types.workflow import (
     WorkflowResponse,
     WorkflowDetailResponse,
     WorkflowExecutionResponse,
+    WorkflowCreateParams,
+    WorkflowCreateResponse,
     WorkflowGenerateParams,
     WorkflowRefineParams,
     WorkflowUpdateParams,
@@ -45,11 +48,34 @@ class WorkflowResource:
 
     # ── CRUD ─────────────────────────────────────────────────────────────
 
-    def create(self, **kwargs) -> GenerateResponse:
+    def create(self, **kwargs) -> WorkflowCreateResponse:
+        """Create a workflow by providing n8n JSON directly.
+
+        Saves the workflow_json to the database in draft status.
+        Use ``deploy()`` afterwards to push it to n8n.
+
+        Args:
+            name: Display name (required).
+            trigger_type: post_call, in_call, webhook, or schedule (required).
+            workflow_json: Complete n8n workflow JSON dict (required).
+            description: What the workflow does.
+            trigger_config: Trigger-specific config.
+            execution_mode: sync or async (default: async).
+            timeout_seconds: Max execution time (1–300).
+
+        Returns:
+            Created workflow with ``workflow_id``, ``name``, ``trigger_type``,
+            ``status``.
+        """
+        params = WorkflowCreateParams(**kwargs)
+        data = self._client.post("/v1/workflows", json=params.to_api_params())
+        return WorkflowCreateResponse(**data)
+
+    def generate(self, **kwargs) -> GenerateResponse:
         """AI-generate a workflow from a natural-language description.
 
-        Uses AI + n8n-MCP to produce an n8n-compatible workflow JSON with
-        Runtime Injection security (credentials never hardcoded).
+        Uses AI + n8n-MCP to produce an n8n-compatible workflow JSON.
+        For direct JSON save without AI, use ``create()`` instead.
 
         Args:
             name: Display name (required).
@@ -399,7 +425,13 @@ class AsyncWorkflowResource:
 
     # ── CRUD ─────────────────────────────────────────────────────────────
 
-    async def create(self, **kwargs) -> GenerateResponse:
+    async def create(self, **kwargs) -> WorkflowCreateResponse:
+        """Create a workflow by providing n8n JSON directly."""
+        params = WorkflowCreateParams(**kwargs)
+        data = await self._client.post("/v1/workflows", json=params.to_api_params())
+        return WorkflowCreateResponse(**data)
+
+    async def generate(self, **kwargs) -> GenerateResponse:
         """AI-generate a workflow from a natural-language description."""
         params = WorkflowGenerateParams(**kwargs)
         data = await self._client.post("/v1/workflows/generate", json=params.to_api_params())
