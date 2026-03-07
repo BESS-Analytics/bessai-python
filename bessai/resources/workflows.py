@@ -140,7 +140,7 @@ class WorkflowResource:
         items = data if isinstance(data, list) else data.get("items", data.get("workflows", []))
         return [WorkflowResponse(**w) for w in items]
 
-    def update(self, workflow_id: str, **kwargs) -> WorkflowDetailResponse:
+    def update(self, workflow_id: str, **kwargs) -> Dict[str, Any]:
         """Update workflow settings.
 
         Only supplied fields are changed.
@@ -151,7 +151,7 @@ class WorkflowResource:
         """
         params = WorkflowUpdateParams(**kwargs)
         data = self._client.patch(f"/v1/workflows/{workflow_id}", json=params.to_api_params())
-        return WorkflowDetailResponse(**data)
+        return data
 
     def delete(self, workflow_id: str, hard: bool = False) -> Dict[str, Any]:
         """Delete a workflow (soft-delete by default).
@@ -467,11 +467,11 @@ class AsyncWorkflowResource:
         items = data if isinstance(data, list) else data.get("items", data.get("workflows", []))
         return [WorkflowResponse(**w) for w in items]
 
-    async def update(self, workflow_id: str, **kwargs) -> WorkflowDetailResponse:
+    async def update(self, workflow_id: str, **kwargs) -> Dict[str, Any]:
         """Update workflow settings."""
         params = WorkflowUpdateParams(**kwargs)
         data = await self._client.patch(f"/v1/workflows/{workflow_id}", json=params.to_api_params())
-        return WorkflowDetailResponse(**data)
+        return data
 
     async def delete(self, workflow_id: str, hard: bool = False) -> Dict[str, Any]:
         """Delete a workflow (soft-delete by default)."""

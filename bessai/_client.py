@@ -140,6 +140,15 @@ class SyncHTTPClient:
     def delete(self, path: str, **kwargs) -> Dict[str, Any]:
         return self.request("DELETE", path, **kwargs)
 
+    def get_bytes(self, path: str, **kwargs) -> bytes:
+        """GET request returning raw bytes (for file downloads)."""
+        params = kwargs.get("params")
+        if params:
+            params = {k: v for k, v in params.items() if v is not None}
+        response = self._client.request("GET", path, params=params)
+        raise_for_status(response.status_code, response.json() if response.headers.get("content-type", "").startswith("application/json") else {})
+        return response.content
+
     def close(self) -> None:
         self._client.close()
 
@@ -238,6 +247,15 @@ class AsyncHTTPClient:
 
     async def delete(self, path: str, **kwargs) -> Dict[str, Any]:
         return await self.request("DELETE", path, **kwargs)
+
+    async def get_bytes(self, path: str, **kwargs) -> bytes:
+        """GET request returning raw bytes (for file downloads)."""
+        params = kwargs.get("params")
+        if params:
+            params = {k: v for k, v in params.items() if v is not None}
+        response = await self._client.request("GET", path, params=params)
+        raise_for_status(response.status_code, response.json() if response.headers.get("content-type", "").startswith("application/json") else {})
+        return response.content
 
     async def close(self) -> None:
         await self._client.aclose()

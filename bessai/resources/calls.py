@@ -154,6 +154,18 @@ class CallResource:
         """
         self._client.delete(f"/v1/calls/{call_id}")
 
+    def get_recording(self, call_id: str) -> bytes:
+        """Download the call recording audio file.
+
+        Returns raw audio bytes (typically OGG format).
+        Use ``retrieve()`` to check if a recording exists first
+        (``recording_url`` field).
+
+        Args:
+            call_id: UUID of the call.
+        """
+        return self._client.get_bytes(f"/v1/calls/{call_id}/recording")
+
 
 class AsyncCallResource:
     """Asynchronous call operations."""
@@ -221,6 +233,10 @@ class AsyncCallResource:
     async def delete(self, call_id: str) -> None:
         """Delete a call record."""
         await self._client.delete(f"/v1/calls/{call_id}")
+
+    async def get_recording(self, call_id: str) -> bytes:
+        """Download the call recording audio file."""
+        return await self._client.get_bytes(f"/v1/calls/{call_id}/recording")
 
 
 # Backward-compatible aliases
