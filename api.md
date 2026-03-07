@@ -21,7 +21,7 @@ client = AsyncBessAI(api_key="bess_sk_live_...")
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `api_key` | `str \| None` | `BESSAI_API_KEY` env var | API key for authentication |
-| `base_url` | `str \| None` | `BESSAI_BASE_URL` env var or `https://api.bessai.com` | API base URL |
+| `base_url` | `str \| None` | `BESSAI_BASE_URL` env var or `https://api.bess-ai.com` | API base URL |
 | `timeout` | `float` | `30.0` | Request timeout in seconds |
 | `max_retries` | `int` | `3` | Max retries for transient errors (429, 5xx) |
 

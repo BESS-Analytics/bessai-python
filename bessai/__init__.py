@@ -71,7 +71,7 @@ class BessAI:
 
     Args:
         api_key: Your BESS AI API key (or set BESSAI_API_KEY env var).
-        base_url: API base URL (default: https://api.bessai.com).
+        base_url: API base URL (default: https://api.bess-ai.com).
         timeout: Request timeout in seconds (default: 30).
         max_retries: Max retry attempts for transient errors (default: 3).
         headers: Additional headers to include in all requests.
@@ -156,7 +156,7 @@ class AsyncBessAI:
 
     Args:
         api_key: Your BESS AI API key (or set BESSAI_API_KEY env var).
-        base_url: API base URL (default: https://api.bessai.com).
+        base_url: API base URL (default: https://api.bess-ai.com).
         timeout: Request timeout in seconds (default: 30).
         max_retries: Max retry attempts for transient errors (default: 3).
         headers: Additional headers to include in all requests.

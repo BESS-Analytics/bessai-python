@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from typing import Optional, Dict
 
 
-DEFAULT_BASE_URL = "https://api.bessai.com"
+DEFAULT_BASE_URL = "https://api.bess-ai.com"
 DEFAULT_TIMEOUT = 30.0
 DEFAULT_MAX_RETRIES = 3
 
