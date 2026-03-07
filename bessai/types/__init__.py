@@ -5,6 +5,21 @@ from bessai.types.phone_number import PhoneNumber, PhoneNumberCreate, PhoneNumbe
 from bessai.types.batch_call import BatchCall, BatchCallCreate, BatchCallItem, BatchCallContact
 from bessai.types.workflow import Workflow, WorkflowGenerateRequest, WorkflowExecution, WorkflowUpdate
 from bessai.types.analytics import AnalyticsSummary, LatencyMetrics, CallsByDay
+from bessai.types.billing import (
+    CreditBalanceResponse,
+    BalanceCheckResponse,
+    TransactionListResponse,
+    CreditLedgerEntry,
+    UsageListResponse,
+    UsageEvent,
+    UsageSummaryResponse,
+    DailyUsageItem,
+    CallUsageResponse,
+    ServicePricingResponse,
+    PricingEstimateParams,
+    PricingEstimateResponse,
+)
+from bessai.types.config import ProviderConfig, DefaultsConfig, LanguageEntry, ProviderPricing
 from bessai.types.knowledge_base import KnowledgeBase, KnowledgeBaseCreate, Document
 from bessai.types.api_key import APIKey, APIKeyCreate, APIKeyCreated, APIKeyUpdate, APIKeyUsage
 from bessai.types.common import PaginatedResponse, ErrorResponse
@@ -22,6 +37,14 @@ __all__ = [
     "Workflow", "WorkflowGenerateRequest", "WorkflowExecution", "WorkflowUpdate",
     # Analytics
     "AnalyticsSummary", "LatencyMetrics", "CallsByDay",
+    # Billing
+    "CreditBalanceResponse", "BalanceCheckResponse",
+    "TransactionListResponse", "CreditLedgerEntry",
+    "UsageListResponse", "UsageEvent",
+    "UsageSummaryResponse", "DailyUsageItem", "CallUsageResponse",
+    "ServicePricingResponse", "PricingEstimateParams", "PricingEstimateResponse",
+    # Config
+    "ProviderConfig", "DefaultsConfig", "LanguageEntry", "ProviderPricing",
     # Knowledge Bases
     "KnowledgeBase", "KnowledgeBaseCreate", "Document",
     # API Keys
