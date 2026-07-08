@@ -42,6 +42,7 @@ from bessai._streaming import StreamingResource
 # Resource classes
 from bessai.resources.agents import AgentResource, AsyncAgentResource
 from bessai.resources.calls import CallResource, AsyncCallResource
+from bessai.resources.chat import ChatResource, AsyncChatResource
 from bessai.resources.phone_numbers import PhoneNumberResource, AsyncPhoneNumberResource
 from bessai.resources.batch_calls import BatchCallResource, AsyncBatchCallResource
 from bessai.resources.workflows import WorkflowResource, AsyncWorkflowResource
@@ -97,6 +98,7 @@ class BessAI:
         # Resource namespaces (singular = Retell-compatible convention)
         self.agent = AgentResource(self._http)
         self.call = CallResource(self._http)
+        self.chat = ChatResource(self._http)
         self.phone_number = PhoneNumberResource(self._http)
         self.batch_call = BatchCallResource(self._http)
         self.workflow = WorkflowResource(self._http)
@@ -182,6 +184,7 @@ class AsyncBessAI:
         # Resource namespaces (singular = Retell-compatible convention)
         self.agent = AsyncAgentResource(self._http)
         self.call = AsyncCallResource(self._http)
+        self.chat = AsyncChatResource(self._http)
         self.phone_number = AsyncPhoneNumberResource(self._http)
         self.batch_call = AsyncBatchCallResource(self._http)
         self.workflow = AsyncWorkflowResource(self._http)

@@ -1,6 +1,16 @@
 """BESS AI SDK — Type definitions."""
 from bessai.types.agent import Agent, AgentCreate, AgentUpdate, AgentVersion
 from bessai.types.call import Call, PhoneCallCreate, WebCallCreate, CallListItem
+from bessai.types.chat import (
+    ChatSession,
+    ChatSessionDetail,
+    ChatMessage,
+    ChatTurnResult,
+    ChatSessionCloseResult,
+    ChatSessionCreateParams,
+    ChatMessageCreateParams,
+    ChatTestSessionCreateParams,
+)
 from bessai.types.phone_number import PhoneNumber, PhoneNumberCreate, PhoneNumberUpdate, SIPConnection
 from bessai.types.batch_call import BatchCall, BatchCallCreate, BatchCallItem, BatchCallContact
 from bessai.types.workflow import Workflow, WorkflowGenerateRequest, WorkflowExecution, WorkflowUpdate
@@ -29,6 +39,10 @@ __all__ = [
     "Agent", "AgentCreate", "AgentUpdate", "AgentVersion",
     # Calls
     "Call", "PhoneCallCreate", "WebCallCreate", "CallListItem",
+    # Chat
+    "ChatSession", "ChatSessionDetail", "ChatMessage", "ChatTurnResult",
+    "ChatSessionCloseResult", "ChatSessionCreateParams", "ChatMessageCreateParams",
+    "ChatTestSessionCreateParams",
     # Phone Numbers
     "PhoneNumber", "PhoneNumberCreate", "PhoneNumberUpdate", "SIPConnection",
     # Batch Calls
