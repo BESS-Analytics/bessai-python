@@ -35,6 +35,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Both `BessAI` and `AsyncBessAI` expose the namespace as `client.chat`.
 - `config.get_chat_pricing()` — `GET /v1/config/chat-pricing`.
 - `config.get_pricing(provider_type, provider_name)` — `GET /v1/config/pricing/{type}/{name}`.
+- New `widget` resource module — the embeddable voice/chat widget, fully scriptable:
+  - `create`, `list`, `retrieve`/`get`, `update`, `delete`, `rotate` — `/v1/widgets` CRUD
+  - `get_entitlement()` / `unlock(feature)` — one-time feature unlock (spends credits)
+  - Widget responses include **`embed_code`** — the ready-to-paste `<script>` install
+    snippet, built server-side from the widget's branding (no dashboard copy-paste;
+    requires a backend with the `embed_code` field, released alongside this SDK).
+- New types: `Widget`, `WidgetCreateParams`, `WidgetEntitlement`, `WidgetUnlockResult`.
 
 ## [0.1.0] - 2026-03-07
 

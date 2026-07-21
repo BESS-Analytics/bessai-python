@@ -50,6 +50,7 @@ from bessai.resources.billing import BillingResource, AsyncBillingResource
 from bessai.resources.config import ConfigResource, AsyncConfigResource
 from bessai.resources.knowledge_bases import KnowledgeBasesResource, AsyncKnowledgeBasesResource
 from bessai.resources.api_keys import APIKeysResource, AsyncAPIKeysResource
+from bessai.resources.widgets import WidgetResource, AsyncWidgetResource
 
 # Exceptions (re-export for convenience)
 from bessai._exceptions import (
@@ -106,6 +107,12 @@ class BessAI:
         self.config = ConfigResource(self._http)
         self.knowledge_bases = KnowledgeBasesResource(self._http)
         self.api_keys = APIKeysResource(self._http)
+        self.widget = WidgetResource(self._http)
+
+    @property
+    def widgets(self) -> WidgetResource:
+        """Backward-compatible alias for ``self.widget``."""
+        return self.widget
 
     @property
     def agents(self) -> AgentResource:
@@ -192,6 +199,12 @@ class AsyncBessAI:
         self.config = AsyncConfigResource(self._http)
         self.knowledge_bases = AsyncKnowledgeBasesResource(self._http)
         self.api_keys = AsyncAPIKeysResource(self._http)
+        self.widget = AsyncWidgetResource(self._http)
+
+    @property
+    def widgets(self) -> AsyncWidgetResource:
+        """Backward-compatible alias for ``self.widget``."""
+        return self.widget
 
     @property
     def agents(self) -> AsyncAgentResource:
