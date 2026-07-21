@@ -5,7 +5,19 @@ All notable changes to the BESS AI Python SDK will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.0] - 2026-07-08
+## [0.2.0] - 2026-07-22
+
+### Fixed
+
+- `phone_number.update_agents()` no longer raises `AttributeError` — the HTTP
+  clients were missing the `put` verb needed for `PUT /v1/phone-numbers/{id}/agents`.
+  (The documented workaround, `phone_number.update(...)`, keeps working.)
+
+### Removed
+
+- The `streaming` resource (`AsyncBessAI.streaming.batch_call_status`). It targeted
+  a WebSocket endpoint that does not exist on the platform, so it never worked.
+  Poll `batch_call.retrieve()` / `batch_call.list_items()` for campaign progress.
 
 ### Added
 
@@ -21,6 +33,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `ChatSessionCloseResult`, `ChatSessionCreateParams`, `ChatMessageCreateParams`,
   `ChatTestSessionCreateParams`.
 - Both `BessAI` and `AsyncBessAI` expose the namespace as `client.chat`.
+- `config.get_chat_pricing()` — `GET /v1/config/chat-pricing`.
+- `config.get_pricing(provider_type, provider_name)` — `GET /v1/config/pricing/{type}/{name}`.
 
 ## [0.1.0] - 2026-03-07
 

@@ -48,11 +48,6 @@ async def main():
         agents = await client.agents.list()
         for agent in agents:
             print(agent.name)
-
-        # Stream batch call status
-        async with client.streaming.batch_call_status("campaign-id") as stream:
-            async for event in stream:
-                print(event)
 ```
 
 ## Configuration

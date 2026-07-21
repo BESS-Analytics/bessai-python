@@ -47,6 +47,19 @@ class ConfigResource:
         """Get list of supported languages."""
         return self._client.get("/v1/config/languages")
 
+    def get_chat_pricing(self) -> Dict[str, Any]:
+        """Get chat-session pricing configuration."""
+        return self._client.get("/v1/config/chat-pricing")
+
+    def get_pricing(self, provider_type: str, provider_name: str) -> Dict[str, Any]:
+        """Get pricing for a specific provider.
+
+        Args:
+            provider_type: One of ``stt``, ``llm``, ``tts``, ``realtime``.
+            provider_name: Provider key, e.g. ``openai``, ``deepgram``.
+        """
+        return self._client.get(f"/v1/config/pricing/{provider_type}/{provider_name}")
+
 
 class AsyncConfigResource:
     """Async config resource — ``client.config``."""
@@ -70,5 +83,18 @@ class AsyncConfigResource:
     async def get_languages(self) -> List[Any]:
         """Get list of supported languages."""
         return await self._client.get("/v1/config/languages")
+
+    async def get_chat_pricing(self) -> Dict[str, Any]:
+        """Get chat-session pricing configuration."""
+        return await self._client.get("/v1/config/chat-pricing")
+
+    async def get_pricing(self, provider_type: str, provider_name: str) -> Dict[str, Any]:
+        """Get pricing for a specific provider.
+
+        Args:
+            provider_type: One of ``stt``, ``llm``, ``tts``, ``realtime``.
+            provider_name: Provider key, e.g. ``openai``, ``deepgram``.
+        """
+        return await self._client.get(f"/v1/config/pricing/{provider_type}/{provider_name}")
 
 

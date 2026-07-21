@@ -137,6 +137,9 @@ class SyncHTTPClient:
     def patch(self, path: str, **kwargs) -> Dict[str, Any]:
         return self.request("PATCH", path, **kwargs)
 
+    def put(self, path: str, **kwargs) -> Dict[str, Any]:
+        return self.request("PUT", path, **kwargs)
+
     def delete(self, path: str, **kwargs) -> Dict[str, Any]:
         return self.request("DELETE", path, **kwargs)
 
@@ -244,6 +247,9 @@ class AsyncHTTPClient:
 
     async def patch(self, path: str, **kwargs) -> Dict[str, Any]:
         return await self.request("PATCH", path, **kwargs)
+
+    async def put(self, path: str, **kwargs) -> Dict[str, Any]:
+        return await self.request("PUT", path, **kwargs)
 
     async def delete(self, path: str, **kwargs) -> Dict[str, Any]:
         return await self.request("DELETE", path, **kwargs)

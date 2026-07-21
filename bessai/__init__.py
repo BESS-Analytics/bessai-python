@@ -37,7 +37,6 @@ from typing import Dict, Optional
 from bessai._version import __version__
 from bessai._config import ClientConfig, DEFAULT_BASE_URL, DEFAULT_TIMEOUT, DEFAULT_MAX_RETRIES
 from bessai._client import SyncHTTPClient, AsyncHTTPClient
-from bessai._streaming import StreamingResource
 
 # Resource classes
 from bessai.resources.agents import AgentResource, AsyncAgentResource
@@ -193,7 +192,6 @@ class AsyncBessAI:
         self.config = AsyncConfigResource(self._http)
         self.knowledge_bases = AsyncKnowledgeBasesResource(self._http)
         self.api_keys = AsyncAPIKeysResource(self._http)
-        self.streaming = StreamingResource(self._config)
 
     @property
     def agents(self) -> AsyncAgentResource:
