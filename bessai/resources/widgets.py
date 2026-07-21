@@ -8,9 +8,9 @@ ready-to-paste ``<script>`` tag) into any website — no dashboard visit needed:
     print(widget.embed_code)
     # <script src="https://api.bess-ai.com/embed.js" data-widget-id="bess_pk_live_..." async></script>
 
-Widget creation is entitlement-gated (one-time credit unlock per mode): a 402
-means the feature isn't unlocked yet — check ``get_entitlement()`` and call
-``unlock()`` (spends credits) or unlock from the console.
+Widget creation is entitlement-gated (one-time unlock per mode): a 402 means
+the feature isn't unlocked yet — check ``get_entitlement()`` and unlock from
+the console.
 """
 from typing import List, Optional
 
@@ -19,7 +19,6 @@ from bessai.types.widget import (
     Widget,
     WidgetCreateParams,
     WidgetEntitlement,
-    WidgetUnlockResult,
 )
 
 _BASE = "/v1/widgets"
@@ -76,11 +75,6 @@ class WidgetResource:
         data = self._client.get(f"{_BASE}/entitlement")
         return WidgetEntitlement(**data)
 
-    def unlock(self, feature: str = "widget") -> WidgetUnlockResult:
-        """One-time feature unlock. ⚠️ SPENDS CREDITS from your balance."""
-        data = self._client.post(f"{_BASE}/unlock", json={"feature": feature})
-        return WidgetUnlockResult(**data)
-
 
 class AsyncWidgetResource:
     """Async widgets resource — ``client.widget``."""
@@ -122,8 +116,3 @@ class AsyncWidgetResource:
     async def get_entitlement(self) -> WidgetEntitlement:
         data = await self._client.get(f"{_BASE}/entitlement")
         return WidgetEntitlement(**data)
-
-    async def unlock(self, feature: str = "widget") -> WidgetUnlockResult:
-        """One-time feature unlock. ⚠️ SPENDS CREDITS from your balance."""
-        data = await self._client.post(f"{_BASE}/unlock", json={"feature": feature})
-        return WidgetUnlockResult(**data)

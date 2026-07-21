@@ -37,11 +37,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `config.get_pricing(provider_type, provider_name)` — `GET /v1/config/pricing/{type}/{name}`.
 - New `widget` resource module — the embeddable voice/chat widget, fully scriptable:
   - `create`, `list`, `retrieve`/`get`, `update`, `delete`, `rotate` — `/v1/widgets` CRUD
-  - `get_entitlement()` / `unlock(feature)` — one-time feature unlock (spends credits)
+  - `get_entitlement()` — read the one-time unlock state (unlocking happens in the console)
   - Widget responses include **`embed_code`** — the ready-to-paste `<script>` install
     snippet, built server-side from the widget's branding (no dashboard copy-paste;
     requires a backend with the `embed_code` field, released alongside this SDK).
-- New types: `Widget`, `WidgetCreateParams`, `WidgetEntitlement`, `WidgetUnlockResult`.
+- New types: `Widget`, `WidgetCreateParams`, `WidgetEntitlement`.
 
 ## [0.1.0] - 2026-03-07
 

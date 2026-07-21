@@ -51,11 +51,3 @@ class WidgetEntitlement(BaseModel):
     unlocked_at: Optional[str] = None
     price_usd: Optional[float] = None
     features: Optional[Dict[str, Any]] = None
-
-
-class WidgetUnlockResult(BaseModel):
-    """Result of a self-serve unlock (one-time credit spend)."""
-    unlocked: bool
-    price_usd: Optional[float] = None
-    message: Optional[str] = None
-    feature: Optional[str] = None
