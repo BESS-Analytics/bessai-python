@@ -111,7 +111,9 @@ class CallResource:
             skip: Pagination offset (default 0).
             limit: Page size, 1-200 (default 20).
             agent_id: Filter by agent UUID.
-            status: Filter by status (ended, connected, failed, etc.).
+            status: Filter by status. In-progress: waiting, initiating,
+                dialing, ringing, connected. Terminal: ended, no_answer,
+                busy, answered_no_speech, failed.
             call_type: Filter by type (inbound, outbound, web).
             batch_call_id: Filter by batch campaign UUID, ``"none"`` for
                 single calls only, or ``"any"`` for batch calls only.

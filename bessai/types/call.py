@@ -31,7 +31,13 @@ class CallResponse(BaseModel):
     """
     call_id: str = Field(alias="id")
     call_type: str = Field(description="inbound, outbound, or web")
-    status: str = Field(description="waiting, queued, initiating, ringing, connected, ended, failed")
+    status: str = Field(
+        description=(
+            "In-progress: waiting, initiating, dialing, ringing, connected. "
+            "Terminal: ended, no_answer, busy, answered_no_speech, failed. "
+            "Legacy rows may carry: completed (= ended)."
+        )
+    )
     agent_id: str
 
     # Phone numbers (phone calls only)
