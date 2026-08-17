@@ -58,6 +58,8 @@ class AgentVersion(BaseModel):
     reminder_trigger_ms: Optional[int] = None
     reminder_max_count: Optional[int] = None
     background_sound: Optional[str] = None
+    background_sound_volume: Optional[float] = None
+    thinking_sound: Optional[str] = None
 
     # Post-call Analytics
     analytics_prompt: Optional[str] = None
@@ -210,7 +212,11 @@ class AgentCreateParams(BaseModel):
     reminder_max_count: int = Field(1, ge=0, le=5,
                                     description="Max reminder attempts before giving up.")
     background_sound: Optional[str] = Field(None,
-                                            description="Ambient audio: coffee-shop, call-center, etc.")
+                                            description="Looping room tone under the voice: call-center, office, city, nature. None/'' = off.")
+    background_sound_volume: Optional[float] = Field(0.3, ge=0, le=1,
+                                            description="How loud the ambience sits under the voice (0-1).")
+    thinking_sound: Optional[str] = Field(None,
+                                            description="Sound while the agent generates a reply or runs a tool: keyboard, keyboard-soft. None/'' = off.")
 
     # ── Post-Call Analytics ───────────────────────────────────────────────
     analytics_prompt: Optional[str] = Field(None,
@@ -304,6 +310,8 @@ class AgentUpdateParams(BaseModel):
     reminder_trigger_ms: Optional[int] = None
     reminder_max_count: Optional[int] = None
     background_sound: Optional[str] = None
+    background_sound_volume: Optional[float] = None
+    thinking_sound: Optional[str] = None
 
     # Post-call Analytics
     analytics_prompt: Optional[str] = None
