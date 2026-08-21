@@ -10,6 +10,10 @@ class Widget(BaseModel):
     id: str
     organization_id: Optional[str] = None
     agent_id: Optional[str] = None
+    # Advanced, usually ``None``: a second published agent serving the VOICE
+    # surface only, so a hybrid widget can run speech-to-speech voice while chat
+    # keeps a cascade agent. ``None`` means ``agent_id`` serves both.
+    voice_agent_id: Optional[str] = None
     public_key: str
     name: Optional[str] = None
     allowed_origins: Optional[List[str]] = None
@@ -31,6 +35,11 @@ class Widget(BaseModel):
 class WidgetCreateParams(BaseModel):
     """Parameters for creating a widget (agent must be PUBLISHED)."""
     agent_id: str
+    # Optional second PUBLISHED agent for the VOICE surface only; chat always uses
+    # ``agent_id``. Omit it — the default — and one agent serves both surfaces.
+    # Note: ``update()`` strips ``None`` values, so clearing an existing split
+    # needs a direct PATCH with ``{"voice_agent_id": null}``.
+    voice_agent_id: Optional[str] = None
     name: str
     allowed_origins: Optional[List[str]] = None
     locale: Optional[str] = None  # 'tr' | 'en'
