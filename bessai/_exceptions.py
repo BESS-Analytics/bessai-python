@@ -71,6 +71,20 @@ class RateLimitError(BessAIError):
         super().__init__(message, status_code=429, **kwargs)
 
 
+class ConcurrentLimitError(RateLimitError):
+    """
+    Raised when the organization's concurrent-session ceiling is reached
+    (HTTP 429 with detail `concurrent_voice_limit_reached` or
+    `concurrent_chat_limit_reached`). Unlike a request-rate 429, retrying
+    immediately won't help — wait for an active call/chat to end, or raise
+    the org's limit. Subclasses RateLimitError so existing handlers keep
+    working.
+    """
+
+    def __init__(self, message: str = "Concurrent session limit reached", **kwargs):
+        super().__init__(message, **kwargs)
+
+
 class InternalServerError(BessAIError):
     """Raised when the BESS AI server returns 5xx (HTTP 500+)."""
 
@@ -121,6 +135,10 @@ def raise_for_status(status_code: int, body: Optional[Dict[str, Any]] = None) ->
     exc_class = STATUS_CODE_MAP.get(status_code)
     if exc_class:
         if exc_class == RateLimitError:
+            # Concurrency-pool 429s carry a machine-readable detail distinct
+            # from request-rate 429s.
+            if message in ("concurrent_voice_limit_reached", "concurrent_chat_limit_reached"):
+                raise ConcurrentLimitError(message=message, body=body)
             raise RateLimitError(message=message, body=body)
         raise exc_class(message=message, body=body)
 
