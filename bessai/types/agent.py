@@ -134,7 +134,7 @@ class AgentCreateParams(BaseModel):
     llm_provider: str = Field("openai",
                               description="LLM provider: openai, anthropic, groq, local_llm, ollama.")
     llm_model: str = Field("gpt-4o",
-                           description="Model name, e.g. gpt-4o, claude-3-5-sonnet, llama-3.3-70b-versatile.")
+                           description="Model name, e.g. gpt-5-mini, claude-haiku-4-5-20251001, openai/gpt-oss-120b.")
     llm_base_url: Optional[str] = Field(None,
                                         description="Custom base URL for self-hosted LLM (vLLM, Ollama).")
     llm_api_key: Optional[str] = Field(None,
@@ -224,7 +224,7 @@ class AgentCreateParams(BaseModel):
     analytics_model_provider: Optional[str] = Field(None,
                                                     description="Provider for analytics LLM (groq, openai, anthropic).")
     analytics_model: Optional[str] = Field(None,
-                                           description="Model for analytics (llama-3.3-70b-versatile, gpt-4o, etc.).")
+                                           description="Model for analytics (openai/gpt-oss-120b, gpt-5-mini, etc.).")
     enable_sentiment_analysis: Optional[bool] = Field(None,
                                                       description="Enable sentiment scoring. None = org default.")
     enable_summary_generation: Optional[bool] = Field(None,
