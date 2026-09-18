@@ -211,9 +211,9 @@ class AgentCreateParams(BaseModel):
                                            description="Auto-end call after this much silence (ms). Default 60 s.")
     max_call_duration_ms: int = Field(600000, ge=60000,
                                       description="Hard cap on call length (ms). Default 10 min.")
-    reminder_trigger_ms: int = Field(10000, ge=1000, le=60000,
-                                     description="Remind user after this silence duration (ms).")
-    reminder_max_count: int = Field(1, ge=0, le=5,
+    reminder_trigger_ms: int = Field(20000, ge=1000, le=60000,
+                                     description="Remind user after this many ms of silence from both sides.")
+    reminder_max_count: int = Field(2, ge=0, le=5,
                                     description="Max reminder attempts before giving up.")
     background_sound: Optional[str] = Field(None,
                                             description="Looping room tone under the voice: call-center, office, city, nature. None/'' = off.")
