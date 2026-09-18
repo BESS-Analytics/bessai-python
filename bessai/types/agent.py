@@ -98,6 +98,10 @@ class AgentResponse(BaseModel):
     created_at: Optional[str] = None
     updated_at: Optional[str] = None
     versions: Optional[List[AgentVersion]] = None
+    # True total number of versions — stays correct even when `versions` was
+    # trimmed by retrieve(versions="latest"/"none"), so never report
+    # len(versions) as the version count.
+    version_count: Optional[int] = None
     linked_workflows: Optional[List[LinkedWorkflow]] = None
 
     class Config:

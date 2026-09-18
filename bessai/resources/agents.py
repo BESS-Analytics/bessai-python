@@ -54,13 +54,25 @@ class AgentResource:
         data = self._client.post("/v1/agents", json=body)
         return AgentResponse(**data)
 
-    def retrieve(self, agent_id: str) -> AgentResponse:
-        """Get an agent by ID, including all version history.
+    def retrieve(self, agent_id: str, versions: Optional[str] = None) -> AgentResponse:
+        """Get an agent by ID, including its version history.
+
+        ``versions`` comes back **newest first**: ``agent.versions[0]`` is the
+        current configuration and its ``version`` number is the one to quote
+        back to a user ("you are editing version 41").
 
         Args:
             agent_id: UUID of the agent.
+            versions: How much history to fetch — ``"all"`` (server default,
+                every version), ``"latest"`` (only the current one, still at
+                index 0) or ``"none"``. Agents accumulate a version per publish
+                and each carries its own full system prompt, so pass
+                ``"latest"`` when you only need the live config.
+                ``agent.version_count`` still reports the true total in every
+                mode — never count ``len(agent.versions)`` instead.
         """
-        data = self._client.get(f"/v1/agents/{agent_id}")
+        params = {"versions": versions} if versions else None
+        data = self._client.get(f"/v1/agents/{agent_id}", params=params)
         return AgentResponse(**data)
 
     def list(self, skip: int = 0, limit: int = 20) -> List[AgentResponse]:
@@ -78,8 +90,15 @@ class AgentResource:
     def update(self, agent_id: str, **kwargs) -> AgentResponse:
         """Update agent configuration.
 
-        Only supplied fields are changed.  Changes are saved as a new draft
-        version.  Call ``publish()`` to make them live.
+        Only supplied fields are changed. The change is written **in place** to
+        the agent's current (highest-numbered) version — it does not create a
+        separate draft. On an agent that has already been published, that is the
+        published version, so **outbound** calls use the new configuration
+        immediately, while **inbound** calls keep answering with the last
+        published snapshot until you call ``publish()``.
+
+        Call ``publish()`` after updating to put both directions on the same
+        configuration and keep the previous one as history.
 
         Args:
             agent_id: UUID of the agent to update.
@@ -199,9 +218,16 @@ class AsyncAgentResource:
         data = await self._client.post("/v1/agents", json=body)
         return AgentResponse(**data)
 
-    async def retrieve(self, agent_id: str) -> AgentResponse:
-        """Get an agent by ID."""
-        data = await self._client.get(f"/v1/agents/{agent_id}")
+    async def retrieve(self, agent_id: str, versions: Optional[str] = None) -> AgentResponse:
+        """Get an agent by ID, including its version history.
+
+        ``versions`` comes back newest first — ``agent.versions[0]`` is the
+        current configuration and its ``version`` number is the one to quote
+        back to a user. Pass ``versions="latest"`` (or ``"none"``) to skip the
+        older versions, each of which carries its own full system prompt.
+        """
+        params = {"versions": versions} if versions else None
+        data = await self._client.get(f"/v1/agents/{agent_id}", params=params)
         return AgentResponse(**data)
 
     async def list(self, skip: int = 0, limit: int = 20) -> List[AgentResponse]:
@@ -212,7 +238,13 @@ class AsyncAgentResource:
         return [AgentResponse(**a) for a in data.get("items", [])]
 
     async def update(self, agent_id: str, **kwargs) -> AgentResponse:
-        """Update agent configuration."""
+        """Update agent configuration.
+
+        Writes in place to the agent's current (highest-numbered) version — not
+        a draft copy. On a published agent, outbound calls pick the change up
+        immediately; inbound calls keep the last published snapshot until
+        ``publish()``.
+        """
         params = AgentUpdateParams(**kwargs)
         body = params.to_api_params()
         data = await self._client.patch(f"/v1/agents/{agent_id}", json=body)
