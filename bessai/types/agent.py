@@ -162,7 +162,7 @@ class AgentCreateParams(BaseModel):
     voice_stability: float = Field(0.5, ge=0, le=1,
                                    description="Voice consistency (ElevenLabs). Lower = more expressive.")
     tts_model: Optional[str] = Field(None,
-                                     description="TTS model override (eleven_turbo_v2, sonic-3, etc.).")
+                                     description="TTS model override (eleven_v4_turbo, gemini-3.8-flash-tts, sonic-3, etc.).")
     volume: float = Field(1.0, ge=0, le=2,
                           description="Output volume multiplier.")
     emotion: str = Field("neutral",
